@@ -1,78 +1,63 @@
+const searchInput = document.getElementById("searchInput");
+const resultsEl = document.getElementById("results");
+const spinnerEl = document.getElementById("spinner");
 
-let searchInputEl = document.getElementById("searchInput");
-let dynamicElement = document.getElementById("dynamicElement");
-let spinnerEl = document.getElementById("spinner");
+function createAndAppendResult(result) {
+    const {
+        title,
+        link,
+        description
+    } = result;
 
-function createAndAppendSearchResult(data){
-    let { description,link,title} = data;
+    const resultItem = document.createElement("div");
+    resultItem.classList.add("result-item");
 
-    //create result-item
-    let resultItemEl = document.createElement("div");
-    dynamicElement.appendChild(resultItemEl);
-
-    //create anchor element
-
-    let titleEl = document.createElement("a");
-    titleEl.href = link;
+    const titleEl = document.createElement("a");
     titleEl.textContent = title;
-    titleEl.target="_blank";
-    resultItemEl.appendChild(titleEl);
+    titleEl.href = link;
+    titleEl.target = "_blank";
+    titleEl.classList.add("result-title");
 
-    //create breake
-    let breakeEl1 = document.createElement("br");
-    resultItemEl.appendChild(breakeEl1);
+    const urlEl = document.createElement("p");
+    urlEl.textContent = link;
+    urlEl.classList.add("result-url");
 
-    //create anchor element 
-    let linkEl = document.createElement("a");
-    linkEl.textContent = link;
-    linkEl.href =link;
-    linkEl.target="_blank";
-    linkEl.style.color="green";
-    resultItemEl.appendChild(linkEl);
+    const descriptionEl = document.createElement("p");
+    descriptionEl.textContent = description;
+    descriptionEl.classList.add("result-description");
 
-    // create break 2 
-    let breakeEl2 = document.createElement("br");
-    resultItemEl.appendChild(breakeEl2);
+    resultItem.appendChild(titleEl);
+    resultItem.appendChild(urlEl);
+    resultItem.appendChild(descriptionEl);
 
-    //create description
-    let descriptionEl = document.createElement("p");
-    descriptionEl.textContent=description;
-    resultItemEl.appendChild(descriptionEl);
-
+    resultsEl.appendChild(resultItem);
 }
 
-function displayResult(result){
-    spinnerEl.classList.toggle("d-none");
-       for (let firsr_ob of result){
+function displayResults(results) {
+    spinnerEl.classList.add("d-none");
 
-         createAndAppendSearchResult(firsr_ob);
-
-       }
-
+    results.forEach(result => {
+        createAndAppendResult(result);
+    });
 }
 
+function searchWikipedia(event) {
+    if (event.key === "Enter") {
+        const searchText = searchInput.value.trim();
+        if (searchText === "") return;
 
-function wikiSearch(event){
-    let inputData = searchInputEl.value;
+        resultsEl.textContent = "";
+        spinnerEl.classList.remove("d-none");
 
-    if(event.key === "Enter"){
-        spinnerEl.classList.toggle("d-none");
-        dynamicElement.textContent ="";
+        const url = `https://apis.ccbp.in/wiki-search?search=${searchText}`;
 
-       let url = "https://apis.ccbp.in/wiki-search?search=" + inputData;
-       let option={
-        method:"GET"
-       }
-
-       fetch(url,option)
-       .then(function(resoponse){
-          return resoponse.json();
-       })
-       .then(function(jsonData){
-            let { search_results } = jsonData;
-            displayResult(search_results);
-       });
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                displayResults(data.search_results);
+            });
     }
 }
 
+searchInput.addEventListener("keydown", searchWikipedia);
 searchInputEl.addEventListener("keydown",wikiSearch);
