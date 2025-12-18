@@ -1,20 +1,90 @@
-.wiki-logo{
-    width:150px;
-    margin-bottom: 30px;
+
+* {
+    box-sizing: border-box;
 }
-.input-box{
-    border-style: solid;
-    border-width: 1px;
-    padding:7px;
+
+body {
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    background-color: #f8f9fa;
+}
+
+.wiki-heading {
+    font-family: "Crimson Text", serif;
+}
+
+/* Search Container */
+.wiki-container {
+    max-width: 600px;
+    margin: 50px auto 20px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wiki-logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.wiki-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
     border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
 }
-.image_input{
-    padding:20px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: gray;
+
+/* Spinner */
+#spinner {
+    margin-top: 20px;
 }
-.dynamic{
-    padding-top: 20px;
-    padding-left: 30px;
+
+/* Results */
+.results-list {
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.result-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.result-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #0645ad;
+    text-decoration: none;
+}
+
+.result-title:hover {
+    text-decoration: underline;
+}
+
+.result-url {
+    font-size: 14px;
+    color: #006621;
+    margin: 4px 0;
+    word-break: break-word;
+}
+
+.result-description {
+    font-size: 15px;
+    color: #333;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .wiki-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .result-title {
+        font-size: 18px;
+    }
 }
